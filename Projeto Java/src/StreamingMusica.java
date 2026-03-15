@@ -52,12 +52,16 @@ public class StreamingMusica {
                 break;
             case 3:
                 buscarPorTitulo();
+                break;
             case 4:
                 buscarPorArtista();
+                break;
             case 5:
                 buscarPorGenero();
+                break;
             case 6:
                 exibirEstatisticas();
+                break;
             default:
                 break;
         }
