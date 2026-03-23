@@ -15,12 +15,15 @@ public class Musica {
         return String.format("%d:%02d", min, seg);
     }
     boolean contemTitulo(String busca) {
-        return busca.contains(this.titulo.toLowerCase());
+        String titulo = this.titulo.toLowerCase();
+        return titulo.contains(busca.toLowerCase());
     }
     boolean contemArtista(String busca) {
-        return busca.contains(this.artista.toLowerCase());
+        String artista = this.artista.toLowerCase();
+        return artista.contains(busca.toLowerCase());
     }
     boolean contemGenero(String busca) {
-        return busca.contains(this.genero.toLowerCase());
+        String genero = this.genero.toLowerCase();
+        return genero.contains(busca.toLowerCase());
     }
 }

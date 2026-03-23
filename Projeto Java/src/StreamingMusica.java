@@ -7,6 +7,7 @@ public class StreamingMusica {
 
     // ArrayLists para armazenar os dados das músicas
     static ArrayList<Musica> musicas = new ArrayList<>();
+    static ArrayList<Usuario> usuarios = new ArrayList<>();
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -29,6 +30,7 @@ public class StreamingMusica {
         System.out.println("4. Buscar músicas por artista");
         System.out.println("5. Buscar músicas por gênero");
         System.out.println("6. Exibir estatísticas");
+        System.out.println("7. Cadastrar usuário");
         System.out.println("0. Sair");
         System.out.print("Escolha: ");
     }
@@ -58,6 +60,9 @@ public class StreamingMusica {
                 break;
             case 6:
                 exibirEstatisticas();
+                break;
+            case 7:
+                cadastrarUsuario();
                 break;
             default:
                 break;
@@ -152,16 +157,16 @@ public class StreamingMusica {
         for (int i = 0; i < musicas.size(); i++) {
             encontrou = musicas.get(i).contemGenero(busca);
             if (encontrou) {
-                System.out.println("Musicas encontradas\n");
+                System.out.println("Musicas encontrada\n");
                 musicas.get(i).exibir();
             }
         }
         if(encontrou) {
             System.out.println("Fim da busca!");
-        } else {
-            System.out.println("Musica não encontrada!");
-            System.out.println("Fim da busca!");
+            return;
         }
+        System.out.println("Musica não encontrada!");
+        System.out.println("Fim da busca!");
     }
     public static void exibirEstatisticas() {
         System.out.println("\n=== ESTATÍSTICAS DO SISTEMA ===\n");
@@ -194,6 +199,10 @@ public class StreamingMusica {
 
 
          */
+    }
+    public static void cadastrarUsuario() {
+        System.out.println("\n--- CADASTRAR USUÁRIO ---\n");
+        System.out.println("Digite o nome do usuário: ");
     }
     public static void adicionarMusicasTeste() {
         Musica musicaTeste1 = new Musica();
