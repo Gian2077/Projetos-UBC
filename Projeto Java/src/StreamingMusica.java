@@ -6,10 +6,7 @@ import java.util.Scanner;
 public class StreamingMusica {
 
     // ArrayLists para armazenar os dados das músicas
-    static ArrayList<String> titulos = new ArrayList<>();
-    static ArrayList<String> artistas = new ArrayList<>();
-    static ArrayList<Integer> duracoes = new ArrayList<>();
-    static ArrayList<String> generos = new ArrayList<>();
+    static ArrayList<Musica> musicas = new ArrayList<>();
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -69,46 +66,44 @@ public class StreamingMusica {
     public static void cadastrarMusica() {
         System.out.println("\n--- CADASTRAR MÚSICA ---");
         System.out.println("Digite o titulo da música:");
-        String titulo = scanner.nextLine();
-        if (titulo.isEmpty()) {
+        Musica musica = new Musica();
+        musica.titulo = scanner.nextLine();
+        if (musica.titulo.isEmpty()) {
             System.out.println("Titulo não pode estar em branco");
             return;
         }
         System.out.println("Digite o artista:");
-        String artista = scanner.nextLine();
-        if (artista.isEmpty()) {
+        musica.artista = scanner.nextLine();
+        if (musica.artista.isEmpty()) {
             System.out.println("Artista não pode estar em branco");
             return;
         }
         System.out.println("Digite a duração da música:");
-        int duracao = scanner.nextInt();
+        musica.duracaoSegundos = scanner.nextInt();
         scanner.nextLine();
-        if(duracao <= 0) {
+        if(musica.duracaoSegundos <= 0) {
             System.out.println("Duração da música é inválida");
             return;
         }
         System.out.println("Digite o gênero da musica:");
-        String genero = scanner.nextLine();
-        if (genero.isEmpty()) {
+        musica.genero = scanner.nextLine();
+        if (musica.genero.isEmpty()) {
             System.out.println("Gênero da música é inválido");
             return;
         }
-        // 7. Adicionar nos ArrayLists
-        titulos.add(titulo);
-        artistas.add(artista);
-        duracoes.add(duracao);
-        generos.add(genero);
+        // 7. Adicionar no ArrayList
+        musicas.add(musica);
         // 8. Exibir mensagem de sucesso
         System.out.println("Musica cadastrada com sucesso!");
     }
     public static void listarMusicas() {
         System.out.println("\n--- MÚSICAS CADASTRADAS ---");
-        if(artistas.isEmpty()) {
+        if(musicas.isEmpty()) {
             System.out.println("Nenhuma música cadastrada");
             return;
         }
-        for(int i = 0; i < artistas.size(); i++) {
-            System.out.println(i + 1 + ". Titulo: " + titulos.get(i) + " | Artista: " + artistas.get(i) + " | Duração: " + formatarDuracao(duracoes.get(i)) + " | Gênero: " + generos.get(i));
+        for (int i = 0; i < musicas.size(); i++) {
+            musicas.get(i).exibir();
         }
     }
     public static void buscarPorTitulo() {
@@ -116,21 +111,18 @@ public class StreamingMusica {
         System.out.print("Digite o título: ");
         String busca = scanner.nextLine().toLowerCase();
         boolean encontrou = false;
-        for (int i = 0; i < titulos.size(); i++) {
-            encontrou = titulos.get(i).toLowerCase().contains(busca);
+        for (int i = 0; i < musicas.size(); i++) {
+            encontrou = musicas.get(i).contemTitulo(busca);
             if (encontrou) {
                 System.out.println("Musicas encontradas\n");
-                System.out.println("Titulo: " + titulos.get(i));
-                System.out.println("Artista: " + artistas.get(i));
-                System.out.println("Duração: " + formatarDuracao(duracoes.get(i)));
-                System.out.println("Gênero: " + generos.get(i));
+                musicas.get(i).exibir();
             }
         }
         if(encontrou) {
             System.out.println("Fim da busca!");
         } else {
-            System.out.println("Fim da busca!");
             System.out.println("Musica não encontrada!");
+            System.out.println("Fim da busca!");
         }
     }
     public static void buscarPorArtista() {
@@ -138,21 +130,18 @@ public class StreamingMusica {
         System.out.println("Digite o artista: ");
         String busca = scanner.nextLine().toLowerCase();
         boolean encontrou = false;
-        for (int i = 0; i < artistas.size(); i++) {
-            encontrou = artistas.get(i).toLowerCase().contains(busca);
+        for (int i = 0; i < musicas.size(); i++) {
+            encontrou = musicas.get(i).contemArtista(busca);
             if (encontrou) {
                 System.out.println("Musicas encontradas\n");
-                System.out.println("Titulo: " + titulos.get(i));
-                System.out.println("Artista: " + artistas.get(i));
-                System.out.println("Duração: " + formatarDuracao(duracoes.get(i)));
-                System.out.println("Gênero: " + generos.get(i));
+                musicas.get(i).exibir();
             }
         }
         if(encontrou) {
             System.out.println("Fim da busca!");
         } else {
-            System.out.println("Fim da busca!");
             System.out.println("Musica não encontrada!");
+            System.out.println("Fim da busca!");
         }
     }
     public static void buscarPorGenero() {
@@ -160,26 +149,24 @@ public class StreamingMusica {
         System.out.println("Digite o gênero: ");
         String busca = scanner.nextLine().toLowerCase();
         boolean encontrou = false;
-        for (int i = 0; i < generos.size(); i++) {
-            encontrou = generos.get(i).toLowerCase().contains(busca);
+        for (int i = 0; i < musicas.size(); i++) {
+            encontrou = musicas.get(i).contemGenero(busca);
             if (encontrou) {
                 System.out.println("Musicas encontradas\n");
-                System.out.println("Titulo: " + titulos.get(i));
-                System.out.println("Artista: " + artistas.get(i));
-                System.out.println("Duração: " + formatarDuracao(duracoes.get(i)));
-                System.out.println("Gênero: " + generos.get(i));
+                musicas.get(i).exibir();
             }
         }
         if(encontrou) {
             System.out.println("Fim da busca!");
         } else {
-            System.out.println("Fim da busca!");
             System.out.println("Musica não encontrada!");
+            System.out.println("Fim da busca!");
         }
     }
     public static void exibirEstatisticas() {
         System.out.println("\n=== ESTATÍSTICAS DO SISTEMA ===\n");
-        System.out.println("Total de músicas: " + titulos.size());
+        System.out.println("Total de músicas: " + musicas.size());
+        /*
         int duracaoTotal = 0;
         for (int i = 0; i < duracoes.size(); i++) {
             duracaoTotal = duracaoTotal + duracoes.get(i);
@@ -204,28 +191,34 @@ public class StreamingMusica {
             }
         }
         System.out.println("Gênero mais cadastrado: " + generoMaisCadastrado + " (" + maisVezesCadastrado + ") músicas");
-    }
-    public static String formatarDuracao(int segundos) {
-        int min = segundos / 60;
-        int seg = segundos % 60;
-        return String.format("%d:%02d", min, seg);
+
+
+         */
     }
     public static void adicionarMusicasTeste() {
-        titulos.add("Bohemian Rhapsody");
-        artistas.add("Queen");
-        duracoes.add(354);
-        generos.add("Rock");
-        titulos.add("Billie Jean");
-        artistas.add("Michael Jackson");
-        duracoes.add(293);
-        generos.add("Pop");
-        titulos.add("In the Morning");
-        artistas.add("Paramore");
-        duracoes.add(222);
-        generos.add("Rock");
-        titulos.add("The Only Exception");
-        artistas.add("Paramore");
-        duracoes.add(332);
-        generos.add("Rock");
+        Musica musicaTeste1 = new Musica();
+        musicaTeste1.titulo = "Bohemian Rhapsody";
+        musicaTeste1.artista = "Queen";
+        musicaTeste1.duracaoSegundos = 354;
+        musicaTeste1.genero = "Rock";
+        Musica musicaTeste2 = new Musica();
+        musicaTeste2.titulo = "Billie Jean";
+        musicaTeste2.artista = "Michael Jackson";
+        musicaTeste2.duracaoSegundos = 293;
+        musicaTeste2.genero = "Pop";
+        Musica musicaTeste3 = new Musica();
+        musicaTeste3.titulo = "In the Morning";
+        musicaTeste3.artista = "Paramore";
+        musicaTeste3.duracaoSegundos = 222;
+        musicaTeste3.genero = "Rock";
+        Musica musicaTeste4 = new Musica();
+        musicaTeste4.titulo = "The Only Exception";
+        musicaTeste4.artista = "Paramore";
+        musicaTeste4.duracaoSegundos = 332;
+        musicaTeste4.genero = "Rock";
+        musicas.add(musicaTeste1);
+        musicas.add(musicaTeste2);
+        musicas.add(musicaTeste3);
+        musicas.add(musicaTeste4);
     }
 }
