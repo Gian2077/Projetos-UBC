@@ -13,6 +13,7 @@ public class StreamingMusica {
 
     public static void main(String[] args) {
         adicionarMusicasTeste();
+        adicionarUsuariosTeste();
         int opcao;
         do {
             exibirMenu();
@@ -31,6 +32,8 @@ public class StreamingMusica {
         System.out.println("5. Buscar músicas por gênero");
         System.out.println("6. Exibir estatísticas");
         System.out.println("7. Cadastrar usuário");
+        System.out.println("8. Listar usuários cadastrados");
+        System.out.println("9. Criar Playlist");
         System.out.println("0. Sair");
         System.out.print("Escolha: ");
     }
@@ -63,6 +66,12 @@ public class StreamingMusica {
                 break;
             case 7:
                 cadastrarUsuario();
+                break;
+            case 8:
+                listarUsuariosCadastrados();
+                break;
+            case 9:
+                criarPlaylist();
                 break;
             default:
                 break;
@@ -203,6 +212,35 @@ public class StreamingMusica {
     public static void cadastrarUsuario() {
         System.out.println("\n--- CADASTRAR USUÁRIO ---\n");
         System.out.println("Digite o nome do usuário: ");
+        Usuario usuario = new Usuario();
+        usuario.nome = scanner.nextLine();
+        usuarios.add(usuario);
+        System.out.println("Usuário cadastrado com sucesso!");
+    }
+    public static void listarUsuariosCadastrados() {
+        System.out.println("\n--- USUÁRIOS CADASTRADOS ---\n");
+        for (int i = 0; i < usuarios.size(); i++) {
+            System.out.println(i + 1 + ". " + usuarios.get(i).nome);
+        }
+    }
+    public static Usuario procurarUsuario(String nome) {
+        for (int i = 0; i < usuarios.size(); i++) {
+            if(usuarios.get(i).nome.equalsIgnoreCase(nome)) {
+                return usuarios.get(i);
+            }
+        }
+        System.out.println("Usuário não encontrado");
+        return null;
+    }
+    public static void criarPlaylist() {
+        System.out.println("\n--- CRIAR PLAYLIST ---\n");
+        System.out.println("Digite o nome do usuário: ");
+        String nomeUsuario = scanner.nextLine();
+        Usuario usuario = procurarUsuario(nomeUsuario);
+        System.out.println("Digite o nome do Playlist: ");
+        String nomePlaylist = scanner.nextLine();
+        usuario.criarPlaylist(nomePlaylist);
+        System.out.println("Playlist " + usuario.playlists.getLast() + "criada com sucesso.");
     }
     public static void adicionarMusicasTeste() {
         Musica musicaTeste1 = new Musica();
@@ -225,9 +263,35 @@ public class StreamingMusica {
         musicaTeste4.artista = "Paramore";
         musicaTeste4.duracaoSegundos = 332;
         musicaTeste4.genero = "Rock";
+        Musica musicaTeste5 = new Musica();
+        musicaTeste5.titulo = "Gunslinger";
+        musicaTeste5.artista = "Avenged Sevenfold";
+        musicaTeste5.duracaoSegundos = 666;
+        musicaTeste5.genero = "Heavy Metal";
         musicas.add(musicaTeste1);
         musicas.add(musicaTeste2);
         musicas.add(musicaTeste3);
         musicas.add(musicaTeste4);
+        musicas.add(musicaTeste5);
+    }
+    public static void adicionarUsuariosTeste() {
+        Usuario usuario1 = new Usuario();
+        usuario1.nome = "Gian";
+        Usuario usuario2 = new Usuario();
+        usuario2.nome = "Cassiano";
+        Usuario usuario3 = new Usuario();
+        usuario3.nome = "Vinicius";
+        Usuario usuario4 = new Usuario();
+        usuario4.nome = "Gustavo";
+        Usuario usuario5 = new Usuario();
+        usuario5.nome = "Yuri viado";
+        Usuario usuario6 = new Usuario();
+        usuario6.nome = "Ale";
+        usuarios.add(usuario1);
+        usuarios.add(usuario2);
+        usuarios.add(usuario3);
+        usuarios.add(usuario4);
+        usuarios.add(usuario5);
+        usuarios.add(usuario6);
     }
 }
