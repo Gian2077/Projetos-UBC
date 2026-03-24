@@ -34,6 +34,8 @@ public class StreamingMusica {
         System.out.println("7. Cadastrar usuário");
         System.out.println("8. Listar usuários cadastrados");
         System.out.println("9. Criar Playlist");
+        System.out.println("10. Listar Playlists");
+        System.out.println("11. Adicionar Música em uma Playlist");
         System.out.println("0. Sair");
         System.out.print("Escolha: ");
     }
@@ -72,6 +74,12 @@ public class StreamingMusica {
                 break;
             case 9:
                 criarPlaylist();
+                break;
+            case 10:
+                listPlaylistsPorUsuario();
+                break;
+            case 11:
+                adicionarMusicaPlaylist();
                 break;
             default:
                 break;
@@ -237,10 +245,68 @@ public class StreamingMusica {
         System.out.println("Digite o nome do usuário: ");
         String nomeUsuario = scanner.nextLine();
         Usuario usuario = procurarUsuario(nomeUsuario);
+        if(usuario == null) {
+            System.out.println("Usuário não encontrado");
+            return;
+        }
         System.out.println("Digite o nome do Playlist: ");
         String nomePlaylist = scanner.nextLine();
         usuario.criarPlaylist(nomePlaylist);
-        System.out.println("Playlist " + usuario.playlists.getLast() + "criada com sucesso.");
+        System.out.println("Playlist " + nomePlaylist + "criada com sucesso.");
+    }
+    public static void listPlaylistsPorUsuario() {
+        System.out.println("\n--- LISTAR PLAYLISTS ---\n");
+        System.out.println("Digite o nome do usuário: ");
+        String nomeUsuario = scanner.nextLine();
+        Usuario usuario = procurarUsuario(nomeUsuario);
+        if(usuario == null) {
+            System.out.println("Usuário não encontrado");
+            return;
+        }
+        usuario.listarPlaylists();
+    }
+    public static void adicionarMusicaPlaylist() {
+        System.out.println("\n--- ADICIONAR MÚSICA EM UMA PLAYLIST ---\n");
+        System.out.println("Digite o nome do usuário: ");
+        String nomeUsuario = scanner.nextLine();
+        Usuario usuario = procurarUsuario(nomeUsuario);
+        if(usuario == null) {
+            System.out.println("Usuário não encontrado");
+            return;
+        }
+        usuario.listarPlaylists();
+        System.out.println("Digite o indice da Playlist ao qual vo^ce deseja adicionar uma música: ");
+        int indicePlaylist = scanner.nextInt() - 1;
+        scanner.nextLine();
+        Playlist playlist = usuario.getPlaylist(indicePlaylist);
+        Musica musica = new Musica();
+        System.out.println("Digite o titulo da música:");
+        musica.titulo = scanner.nextLine();
+        if (musica.titulo.isEmpty()) {
+            System.out.println("Titulo não pode estar em branco");
+            return;
+        }
+        System.out.println("Digite o artista:");
+        musica.artista = scanner.nextLine();
+        if (musica.artista.isEmpty()) {
+            System.out.println("Artista não pode estar em branco");
+            return;
+        }
+        System.out.println("Digite a duração da música:");
+        musica.duracaoSegundos = scanner.nextInt();
+        scanner.nextLine();
+        if(musica.duracaoSegundos <= 0) {
+            System.out.println("Duração da música é inválida");
+            return;
+        }
+        System.out.println("Digite o gênero da musica:");
+        musica.genero = scanner.nextLine();
+        if (musica.genero.isEmpty()) {
+            System.out.println("Gênero da música é inválido");
+            return;
+        }
+        playlist.adicionarMusica(musica);
+        System.out.println(musica.titulo + " criada com sucesso!");
     }
     public static void adicionarMusicasTeste() {
         Musica musicaTeste1 = new Musica();
