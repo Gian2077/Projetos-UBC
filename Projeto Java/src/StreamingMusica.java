@@ -187,15 +187,35 @@ public class StreamingMusica {
     }
     public static void exibirEstatisticas() {
         System.out.println("\n=== ESTATÍSTICAS DO SISTEMA ===\n");
-        System.out.println("Total de músicas: " + musicas.size());
-        /*
+        int totalMusicas = musicas.size();
+        for(int i = 0; i < usuarios.size(); i++) {
+            Usuario usuario = usuarios.get(i);
+            for(int j = 0; j < usuario.playlists.size(); j++) {
+                Playlist playlist = usuario.playlists.get(j);
+                totalMusicas += playlist.musicas.size();
+            }
+        }
+        System.out.println("Total de músicas: " + totalMusicas);
         int duracaoTotal = 0;
-        for (int i = 0; i < duracoes.size(); i++) {
-            duracaoTotal = duracaoTotal + duracoes.get(i);
+        for (int i = 0;i < musicas.size(); i++) {
+            duracaoTotal += musicas.get(i).duracaoSegundos;
+        }
+        for (int i = 0;i < usuarios.size(); i++) {
+            Usuario usuario = usuarios.get(i);
+            for (int j = 0; j < usuario.playlists.size(); j++) {
+                Playlist playlist = usuario.playlists.get(j);
+                duracaoTotal += playlist.getDuracaoTotal();
+            }
         }
         System.out.println("Duração total: " + formatarDuracao(duracaoTotal));
-        System.out.println("Duração média: " + formatarDuracao(duracaoTotal / duracoes.size()));
+        System.out.println("Duração média: " + formatarDuracao(duracaoTotal / totalMusicas));
         Map<String, Integer> generosMaisCadastrado = new HashMap<>();
+        generosMaisCadastrado.put(musicas.getFirst().genero, 1);
+        for (int i = 0; i < musicas.size(); i++) {
+
+        }
+
+        /*
         generosMaisCadastrado.put(generos.get(0), 1);
         for(int i = 1; i < generos.size(); i++) {
             if(generosMaisCadastrado.containsKey(generos.get(i))) {
@@ -264,6 +284,11 @@ public class StreamingMusica {
             return;
         }
         usuario.listarPlaylists();
+    }
+    public static String formatarDuracao(int duracaoSegundos) {
+        int min = duracaoSegundos / 60;
+        int seg = duracaoSegundos % 60;
+        return String.format("%d:%02d", min, seg);
     }
     public static void adicionarMusicaPlaylist() {
         System.out.println("\n--- ADICIONAR MÚSICA EM UMA PLAYLIST ---\n");
