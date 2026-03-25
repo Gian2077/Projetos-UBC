@@ -211,17 +211,26 @@ public class StreamingMusica {
         System.out.println("Duração média: " + formatarDuracao(duracaoTotal / totalMusicas));
         Map<String, Integer> generosMaisCadastrado = new HashMap<>();
         generosMaisCadastrado.put(musicas.getFirst().genero, 1);
-        for (int i = 0; i < musicas.size(); i++) {
-
-        }
-
-        /*
-        generosMaisCadastrado.put(generos.get(0), 1);
-        for(int i = 1; i < generos.size(); i++) {
-            if(generosMaisCadastrado.containsKey(generos.get(i))) {
-                generosMaisCadastrado.put(generos.get(i), generosMaisCadastrado.get(generos.get(i)) + 1);
+        for (int i = 1; i < musicas.size(); i++) {
+            Musica musica = musicas.get(i);
+            if(generosMaisCadastrado.containsKey(musica.genero)) {
+                generosMaisCadastrado.put(musica.genero, generosMaisCadastrado.get(musica.genero) + 1);
             } else {
-                generosMaisCadastrado.put(generos.get(i), 1);
+                generosMaisCadastrado.put(musica.genero, 1);
+            }
+        }
+        for (int i = 0; i < usuarios.size(); i ++) {
+            Usuario usuario = usuarios.get(i);
+            for(int j = 0; j < usuario.playlists.size(); j++) {
+                Playlist playlist = usuario.playlists.get(j);
+                for(int m = 0; m < playlist.musicas.size(); m++) {
+                    Musica musica = musicas.get(m);
+                    if(generosMaisCadastrado.containsKey(musica.genero)) {
+                        generosMaisCadastrado.put(musica.genero, generosMaisCadastrado.get(musica.genero) + 1);
+                    } else {
+                        generosMaisCadastrado.put(musica.genero, 1);
+                    }
+                }
             }
         }
         String generoMaisCadastrado = null;
@@ -233,9 +242,6 @@ public class StreamingMusica {
             }
         }
         System.out.println("Gênero mais cadastrado: " + generoMaisCadastrado + " (" + maisVezesCadastrado + ") músicas");
-
-
-         */
     }
     public static void cadastrarUsuario() {
         System.out.println("\n--- CADASTRAR USUÁRIO ---\n");
